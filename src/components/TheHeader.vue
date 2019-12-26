@@ -1,20 +1,17 @@
 <template>
   <div class="header">
-    <div class="logo">
-      <i class="back"/>
-    </div>
     <div class="tabs">
       <div class="item">
-        <RouterLink to="/recommend">首页</RouterLink>
+        <RouterLink to="/list/1">大陆</RouterLink>
       </div>
       <div class="item">
-        <RouterLink to="/category">分类</RouterLink>
+        <RouterLink to="/list/2">欧美</RouterLink>
       </div>
       <div class="item">
-        <RouterLink to="/rank">榜单</RouterLink>
+        <RouterLink to="/list/3">日本</RouterLink>
       </div>
       <div class="item">
-        <RouterLink to="/search">搜索</RouterLink>
+        <RouterLink to="/list/4">韩国</RouterLink>
       </div>
     </div>
     <div class="user" @click="$router.push('/user')">
@@ -35,6 +32,7 @@ export default {
     display flex
     width 100%
     height 56px
+    bottom:0;
     line-height 56px
     color: $gray
     background $theme-color
@@ -67,5 +65,4 @@ export default {
     .router-link-active
       font-weight: 700
       color #fff!important
-      border-bottom: 3px solid #fff
 </style>

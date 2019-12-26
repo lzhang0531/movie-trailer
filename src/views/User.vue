@@ -6,28 +6,34 @@
           <img src="~common/images/user.png" width="32">
         </div>
         <div class="info">
-          <span class="text">{{ user.email }}</span>
-          <span class="text">{{ user.username }}</span>
+          <!--<span class="text">会员有效期:{{ user.username }}</span>-->
+          <span class="text">点击购买会员</span>
         </div>
         <i class="iconfont icon-left" @click="$router.back()"/>
       </div>
       <div class="menu-wrapper">
         <ul class="menus">
           <li class="menu-item">
-            <i class="iconfont icon-user1"/>
-            <span class="text">我的资料</span>
+            <i class="iconfont icon-history"/>
+            <span class="text">购买记录</span>
             <i class="iconfont icon-right"/>
           </li>
           <li class="menu-item">
-            <i class="iconfont icon-collect"/>
-            <span class="text">我的收藏</span>
+            <i class="iconfont icon-email"/>
+            <span class="text">意见反馈</span>
             <i class="iconfont icon-right"/>
-            <span v-if="collectMovies.length" class="text count">{{ collectMovies.length }}</span>
+          </li>
+          <li class="menu-item">
+            <i class="iconfont icon-share"/>
+            <span class="text">我的邀请码</span>
+            <i class="iconfont icon-right"/>
+          </li>
+          <li class="menu-item">
+            <i class="iconfont icon-user"/>
+            <span class="text">填写邀请码</span>
+            <i class="iconfont icon-right"/>
           </li>
         </ul>
-      </div>
-      <div class="btn-wrapper">
-        <button class="logout-btn" @click="logout">退出</button>
       </div>
     </div>
   </Transition>
@@ -52,7 +58,7 @@ export default {
     ])
   },
   created () {
-    this.getUserInfo()
+    // this.getUserInfo()
   },
   methods: {
     getUserInfo () {
@@ -103,7 +109,7 @@ export default {
       display flex
       flex-direction column
       padding-left 10px
-      font-size 18px
+      font-size 13px
       color #fff
       .text
         flex 1
@@ -129,6 +135,8 @@ export default {
           font-size 25px
           color #999
           margin-right 8px
+        .icon-email
+          font-weight bold
         .count
           float right
           margin-right 5px
