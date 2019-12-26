@@ -19,7 +19,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/recommend'
+      redirect: '/category'
     },
     {
       path: '/recommend',
@@ -27,7 +27,7 @@ export default new Router({
       component: Recommend
     },
     {
-      path: '/category',
+      path: '/category/:type',
       name: 'category',
       component: Category
     },
@@ -44,14 +44,7 @@ export default new Router({
     {
       path: '/user',
       name: 'user',
-      component: User,
-      beforeEnter: (to, from, next) => {
-        if (!store.state.user) {
-          next('/login')
-          return
-        }
-        next()
-      }
+      component: User
     },
     {
       path: '/movie/:id',

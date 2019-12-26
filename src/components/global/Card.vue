@@ -6,13 +6,7 @@
     </div>
     <div class="descript">
       <h1 class="title">{{ movie.title }}</h1>
-      <p v-if="movie.isPlay === 1" class="rate">
-        观众评:
-        <span :class="{ 'text': movie.rate > 0 }">{{ movie.rate || '暂无' }}</span>
-      </p>
-      <p v-else class="pubdate">上映时间: {{ movie.pubdate | removeZh }}</p>
-      <p class="cast">主演: {{ casts }}</p>
-      <p class="duration">时长: {{ movie.duration || '未知' }}</p>
+      <p class="summary">{{ movie.summary }}</p>
     </div>
   </div>
 </template>
@@ -35,12 +29,6 @@ export default {
     }
   },
   computed: {
-    casts () {
-      return this.movie.casts.map(it => it.name).join(',')
-    },
-    isRank () {
-      return this.sort !== -1
-    }
   }
 }
 </script>
@@ -86,7 +74,7 @@ export default {
       color #666
       border-bottom 1px solid #e6e6e6
       overflow hidden
-      white-space nowrap
+      /*white-space nowrap*/
       .title
         flex 1
         color #333
@@ -100,10 +88,11 @@ export default {
           font-size 15px
           font-weight 700
           color #faaf00
-      .cast
-        flex 1
-        overflow hidden
-        text-overflow ellipsis
+      .summary
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
       .duration
         flex 1
 </style>

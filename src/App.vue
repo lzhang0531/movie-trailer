@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <TheHeader/>
     <div class="content">
       <KeepAlive :exclude="exclude">
         <RouterView/>
       </KeepAlive>
     </div>
+    <TheHeader/>
   </div>
 </template>
 
@@ -18,16 +18,30 @@ export default {
   },
   data () {
     return {
-      exclude: ['User', 'Movie']
+      exclude: ['User']
     }
+  },
+  beforeCreate: function () {
+    function plusReady () {
+      alert('uuid: ' + plus.device.uuid)
+    };
+    if (window.plus) {
+      plusReady()
+    } else {
+      document.addEventListener('plusready', plusReady, false)
+    }
+    this.$store.commit('setUserInfo', {
+      id: 123
+    })
   }
 }
+
 </script>
 
 <style lang="stylus" scoped>
 .content
   position absolute
-  top 56px
-  bottom 0
+  botton 56px
+  top 0
   width 100%
 </style>

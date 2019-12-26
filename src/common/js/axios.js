@@ -11,11 +11,11 @@ const COOKIE_NAME = 'movie_trailer_user'
 instance.interceptors.response.use(res => {
   const { data } = res
   // 登录失效
-  if (data.code === 1003) {
+  /*  if (data.code === 1003) {
     Cookie.remove(COOKIE_NAME)
     router.replace('/login')
     return
-  }
+  } */
   return Promise.resolve(data)
 }, () => {
   router.push('/error')
