@@ -1,5 +1,5 @@
 import axios from 'axios'
-import router from '@/router'
+import router from 'app/router'
 import Cookie from 'js-cookie'
 
 const instance = axios.create({

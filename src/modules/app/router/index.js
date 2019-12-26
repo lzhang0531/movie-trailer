@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/store'
 const Recommend = () => import('views/Recommend')
 const Category = () => import('views/Category')
 const Rank = () => import('views/Rank')

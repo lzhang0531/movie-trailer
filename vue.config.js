@@ -30,22 +30,45 @@ const externals = {
 }
 
 module.exports = {
+  publicPath: './', // 部署应用包时的基本 UR
+  pages: {
+    app: {
+      // 应用入口配置，相当于单页面应用的main.js，必需项
+      entry: 'src/modules/app/main.js',
+
+      // 应用的模版，相当于单页面应用的public/index.html，可选项，省略时默认与模块名一致
+      template: 'public/index.html',
+
+      // 编译后在dist目录的输出文件名，可选项，省略时默认与模块名一致
+      filename: 'index.html',
+
+      // 包含的模块，可选项
+      chunks: ['app']
+    },
+    // 只有entry属性时，直接用字符串表示模块入口
+    manage: {
+      // 应用入口配置，相当于单页面应用的main.js，必需项
+      entry: 'src/modules/manage/manage.js',
+
+      // 应用的模版，相当于单页面应用的public/index.html，可选项，省略时默认与模块名一致
+      template: 'public/manage.html',
+
+      // 编译后在dist目录的输出文件名，可选项，省略时默认与模块名一致
+      filename: 'manage.html'
+    }
+  },
   chainWebpack: config => {
     config.resolve.alias
-      .set('common', resolve('src/common'))
-      .set('components', resolve('src/components'))
-      .set('views', resolve('src/views'))
+      .set('app', resolve('src/modules/app'))
+      .set('common', resolve('src/modules/app/common'))
+      .set('components', resolve('src/modules/app/components'))
+      .set('views', resolve('src/modules/app/views'))
     config.devServer.proxy({
       '/api': {
         target: 'http://movie.ihaoze.cn/'
       }
     })
     config.externals(externals)
-    config.plugin('html')
-      .tap(args => {
-        args[0].cdn = cdn
-        return args
-      })
   },
   css: {
     loaderOptions: {

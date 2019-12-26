@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import TheHeader from 'modules/app/components/TheHeader'
+import TheHeader from 'app/components/TheHeader'
 export default {
   name: 'App',
   components: {
