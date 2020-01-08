@@ -4,33 +4,33 @@
       <span
         v-for="item in list"
         :key="item.id"
-        :class="{'active': cacheList.includes(item.categoryName)}"
+        :class="{'active': categoryCode == item.categoryCode}"
         class="item"
-        @click="selectItem(item.categoryName)"
+        @click="selectItem(item.categoryCode)"
       >
         {{ item.categoryName }}
       </span>
     </div>
-    <button class="confirm-btn" @click="confirm">完成</button>
+    <!--<button class="confirm-btn" @click="confirm">完成</button>-->
   </div>
 </template>
 
 <script>
 export default {
   model: {
-    prop: 'categories',
+    prop: 'categoryCode',
     event: 'change'
   },
   props: {
-    categories: {
-      type: Array,
+    categoryCode: {
+      type: [String, Number],
       required: true
     }
   },
   data () {
     return {
       list: [],
-      cacheList: []
+      checkedCategoryCode: ''
     }
   },
   created () {
@@ -45,20 +45,18 @@ export default {
       })
     },
     resetCache () {
-      this.cacheList = this.categories.slice()
+      this.cacheList = [this.categoryCode].slice()
     },
-    selectItem (name) {
-      const arr = this.cacheList.slice()
-      const idx = arr.indexOf(name)
-      if (idx > -1) {
-        arr.splice(idx, 1)
+    selectItem (code) {
+      if (this.checkedCategoryCode === code) {
+        this.checkedCategoryCode = ''
       } else {
-        arr.push(name)
+        this.checkedCategoryCode = code
       }
-      this.cacheList = arr
+      this.confirm()
     },
     confirm () {
-      this.$emit('change', this.cacheList)
+      this.$emit('change', this.checkedCategoryCode)
     }
   }
 }
@@ -67,6 +65,7 @@ export default {
 <style lang="stylus" scoped>
 .category-wrapper
   padding 10px 25px
+  border-radius 0 2px 2px 0
   .list
     display flex
     flex-wrap wrap
@@ -78,9 +77,9 @@ export default {
       color #777
       border 1px solid #ccc
       &.active
-        border-color #faaf00
-        background #faaf00
-        color #fff
+        border-color: #e8931b;
+        color: #e8931b;
+        background-color: #f3bc4a38;
   .confirm-btn
     width 60px
     height 30px

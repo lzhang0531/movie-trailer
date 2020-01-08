@@ -2,7 +2,7 @@
   <div class="header">
     <div class="tabs">
       <div class="item">
-        <RouterLink to="/list/1">大陆</RouterLink>
+        <RouterLink to="/list/1" >大陆</RouterLink>
       </div>
       <div class="item">
         <RouterLink to="/list/2">欧美</RouterLink>
@@ -27,6 +27,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  $theme-color = #1c2635
+  $gray = #bbb
   .header
     position fixed
     display flex
@@ -43,7 +45,7 @@ export default {
       .back
         display block
         height 100%
-        background url('~common/images/logo.png') no-repeat center
+        background url('~index/common/images/logo.png') no-repeat center
         background-size contain
     .tabs
       display flex

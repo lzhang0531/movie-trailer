@@ -5,7 +5,8 @@ const resolve = dir => path.join(__dirname, dir)
 const cdn = {
   css: [
     // dplayer
-    '//cdn.bootcss.com/dplayer/1.25.0/DPlayer.min.css'
+    '//cdn.bootcss.com/dplayer/1.25.0/DPlayer.min.css',
+    '//i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css'
   ],
   js: [
     // vue
@@ -28,18 +29,37 @@ const externals = {
   vuex: 'Vuex',
   dplayer: 'DPlayer'
 }
-
+const BASE_URL = process.env.NODE_ENV === 'production'
+  ? '/movie/'
+  : '/'
 module.exports = {
+  outputDir: 'movie',
+  publicPath: BASE_URL,
+  /*  devServer: {
+    overlay: {
+      warnings: false,
+      errors: false
+    },
+    proxy: {
+      '/api': {
+        target: 'http://47.111.232.212:9090',
+        changeOrigin: true, // 是否跨域
+        pathRewrite: {
+          '^/api': ''
+        }
+      },
+      '/file': { // 这里最好有一个 /
+        target: 'http://47.111.232.212', // 后台接口域名
+        changeOrigin: true // 是否跨域
+      }
+    }
+  }, */
   chainWebpack: config => {
     config.resolve.alias
       .set('common', resolve('src/common'))
       .set('components', resolve('src/components'))
       .set('views', resolve('src/views'))
-    config.devServer.proxy({
-      '/api': {
-        target: 'http://movie.ihaoze.cn/'
-      }
-    })
+      .set('index', resolve('src'))
     config.externals(externals)
     config.plugin('html')
       .tap(args => {

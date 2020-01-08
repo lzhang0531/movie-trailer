@@ -4,6 +4,7 @@
 
 <script>
 export default {
+  name: 'Spacing',
   props: {
     height: {
       type: Number,

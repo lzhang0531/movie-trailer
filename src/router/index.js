@@ -1,70 +1,78 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import store from '@/store'
-const Recommend = () => import('views/Recommend')
-const Category = () => import('views/Category')
-const Rank = () => import('views/Rank')
-const Search = () => import('views/Search')
-const User = () => import('views/User')
-const Movie = () => import('views/Movie')
-const Login = () => import('views/Login')
-const List = () => import('views/List')
-const ErrorPage = () => import('views/Error')
-
-Vue.use(Router)
-
-export default new Router({
-  mode: 'history',
+import VueRouter from 'vue-router'
+import store from 'index/store'
+// import { getCookieUser, setCookieUser } from 'index/common/js/cache'
+Vue.use(VueRouter)
+const router = new VueRouter({
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
-      redirect: '/category'
-    },
-    {
-      path: '/recommend',
-      name: 'recommend',
-      component: Recommend
-    },
-    {
-      path: '/category/:type',
-      name: 'category',
-      component: Category
-    },
-    {
-      path: '/rank',
-      name: 'rank',
-      component: Rank
-    },
-    {
-      path: '/search',
-      name: 'search',
-      component: Search
-    },
-    {
-      path: '/user',
-      name: 'user',
-      component: User
-    },
-    {
-      path: '/movie/:id',
-      name: 'movie',
-      component: Movie
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login
+      redirect: '/list/1'
     },
     {
       path: '/list/:type',
       name: 'list',
-      component: List
+      component: () => import('../pages/List.vue')
     },
     {
-      path: '/error',
-      name: 'error',
-      component: ErrorPage
+      path: '/user',
+      name: 'user',
+      component: () => import('../pages/User.vue')
+    },
+    {
+      path: '/movie/:id',
+      name: 'movie',
+      component: () => import('../pages/Movie.vue')
+    },
+    {
+      path: '/fillInvitation',
+      name: 'fillInvitation',
+      component: () => import('../pages/fillInvitation.vue')
+    },
+    {
+      path: '/share',
+      name: 'share',
+      component: () => import('../pages/share.vue')
+    },
+    {
+      path: '/feedback',
+      name: 'feedback',
+      component: () => import('../pages/feedback.vue')
+    },
+    {
+      path: '/orderList',
+      name: 'orderList',
+      component: () => import('../pages/orderList.vue')
+    },
+    {
+      path: '/buyMember',
+      name: 'buyMember',
+      component: () => import('../pages/buyMember.vue')
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (!store.state.appUser.deviceId) {
+    console.log('没有id')
+    store.dispatch('getDeviceId').then(res => {
+      console.log('获取到id==='+ res)
+      if (!res && to.name === 'user') {
+        next({ name: 'share' })
+      } else {
+        next()
+      }
+    }).catch(() => {
+      next({ name: 'share' })
+    })
+  } else if (!store.state.appUser.userInfo.id) {
+    console.log('data', '有id，没有账户')
+    store.dispatch('getUserInfo', store.state.appUser.deviceId)
+    next()
+  } else {
+    next()
+  }
+})
+export default router

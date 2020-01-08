@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  name: 'Card',
   filters: {
     removeZh (str) {
       return str.replace('(中国大陆)', '')
