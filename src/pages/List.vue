@@ -19,7 +19,7 @@
             v-show="activeTabIdx === 0"
             ref="sizerCategory"
             v-model="categoryCode"
-            @change="getMovieList"
+            @change="getMovieList(true)"
           />
         </div>
         <div v-show="activeTabIdx !== -1" class="mask" @click="closeTab"/>
@@ -112,6 +112,7 @@ export default {
       }
       if (clearFlag) {
         this.movieList = []
+        this.pageNum = 1
       }
       this.$axios.get('/api/video/page', { params }).then(res => {
         if (res.res === 0) {

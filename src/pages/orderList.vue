@@ -7,8 +7,8 @@
       </div>
       <div class="content-wrapper">
         <ScrollView :data="orderList" :pull-up-load="true" @pulling-up="loadMore">
-          <div v-for="order in orderList" class="card">
-            <ul class="ui-row">
+          <div v-for="order in orderList" :key="order.id" class="card" >
+            <ul class="ui-row" @click="order.orderStatus != 2 ? toPay(order.payUrl) : ''">
               <li class="ui-col ui-col-100"><div class="con" :class="{'success':order.orderStatus == 2}" />{{ order.payTime ? order.payTime.substring(0,16):order.createTime.substring(0,16) }}</li>
               <li class="ui-col ui-col-75"> ￥{{ Number(order.orderPrice).toFixed(2) }}</li>
               <li class="ui-col ui-col-25">{{ order.orderStatus == 2 ? '已支付' : '未支付' }}</li>
@@ -34,12 +34,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import orderCard from 'index/components/global/orderCard'
 
 export default {
   name: 'OrderList',
   components: {
-    orderCard
   },
   data () {
     return {
@@ -73,6 +71,9 @@ export default {
     this.getOrderList()
   },
   methods: {
+    toPay (payUrl) {
+      window.location.href = payUrl
+    },
     getOrderList () {
       if (!this.appUser.userInfo.id) {
         this.count = 0

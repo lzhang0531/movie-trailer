@@ -30,15 +30,7 @@
           />
         </div>
         <div class="text-center">
-          <MtButton
-            type="primary"
-            size="small"
-            class="mg-20t"
-            style="width: 80%"
-            @click="add"
-          >
-            提交
-          </MtButton>
+          <button class="ui-btn ui-btn-primary mg-20t" @click="add">提交</button>
         </div>
       </div>
     </div>
@@ -65,7 +57,6 @@ export default {
       return this.phone === '' ? '' : 'success'
     },
     contentState () {
-      console.log(this.content)
       return this.content === '' ? '' : 'success'
     }
   },
@@ -83,6 +74,7 @@ export default {
               message: '提交成功',
               iconClass: 'icon icon-success'
             })
+            this.$router.back()
           } else {
             this.$toast({
               message: '提交失败!' + res.msg,

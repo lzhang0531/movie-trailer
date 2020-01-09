@@ -55,10 +55,11 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log('to.name============' + to.name)
+  console.log('from.name=========' + from.name)
   if (!store.state.appUser.deviceId) {
-    console.log('没有id')
     store.dispatch('getDeviceId').then(res => {
-      console.log('获取到id==='+ res)
+      console.log('获取到id===' + res)
       if (!res && to.name === 'user') {
         next({ name: 'share' })
       } else {

@@ -16,6 +16,7 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mint-ui": "^2.2.13",
+    "qrcodejs2": "0.0.2",
     "vue": "^2.6.3",
     "vue-lazyload": "^1.2.6",
     "vue-router": "^3.0.1",

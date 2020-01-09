@@ -60,7 +60,15 @@
         </div>
         <div class="ui-col button text-center" @click="pay"><span>确认支付</span></div>
       </div>
-      <div v-show="payFlag" class="pay-result" @click="$router.back()">支付已完成?点此处返回>></div>
+      <div v-show="wetChatPay" class="wetChatPay">
+        <div class="pay-block">
+          <div id="qrcode" class="qrcode"/>
+          <span class="mg-20t">扫描二维码进行支付</span>
+          <button class="ui-btn ui-btn-primary mg-20t" @click="$router.back()">支付完成</button>
+          <div class="mg-20t"><a @click="close">关闭</a></div>
+        </div>
+      </div>
+      <!--<div v-show="payFlag" class="pay-result" @click="$router.back()">支付已完成?点此处返回>></div>-->
     </div>
   </Transition>
 </template>
@@ -68,7 +76,8 @@
 <script>
 import { mapState } from 'vuex'
 import { areaList } from 'index/common/js/areaList'
-
+import { MessageBox } from 'mint-ui'
+import QRCode from 'qrcodejs2'
 export default {
   name: 'BuyMember',
   data () {
@@ -79,7 +88,7 @@ export default {
       areaCode: this.$route.params.areaCode || '1',
       orderType: 'alipay',
       areaList: areaList,
-      payFlag: false
+      wetChatPay: false
     }
   },
   computed: {
@@ -99,6 +108,10 @@ export default {
     })
   },
   methods: {
+    close () {
+      this.wetChatPay = false
+      document.getElementById('qrcode').innerHTML = ''
+    },
     pay () {
       if (this.appUser.userInfo.id !== '' && this.orderPrice != '') {
         this.$axios.post(`/api/order/create`, {
@@ -109,8 +122,24 @@ export default {
           userId: this.appUser.userInfo.id
         }).then(res => {
           if (res.res === 0) {
-            window.location.href = res.data.payUrl
             this.payFlag = true
+            if (this.orderType === 'alipay') {
+              window.location.href = res.data.payUrl
+              MessageBox({
+                title: '提示',
+                message: '确定支付完成?',
+                confirmButtonText: '已完成',
+                cancelButtonText: '未完成',
+                showCancelButton: true
+              }).then(action => {
+                if (action === 'confirm') {
+                  this.$router.back()
+                }
+              }).catch(() => {})
+            } else {
+              this.wetChatPay = true
+              this.qrcode(res.data.payUrl)
+            }
           } else {
             this.$toast({
               message: '创建订单失败!' + res.msg,
@@ -126,6 +155,15 @@ export default {
       } else {
         this.$toast('创建订单失败')
       }
+    },
+    qrcode (url) {
+      let qrcode = new QRCode('qrcode', {
+        width: 132,
+        height: 132,
+        text: url, // 二维码地址
+        colorDark: '#000',
+        colorLight: '#fff'
+      })
     }
   }
 }
@@ -238,6 +276,34 @@ export default {
         }
       }
       /*line-height: 40px;*/
+    }
+    .mint-msgbox{
+      border-radius: 8px;
+    }
+    .mint-msgbox-confirm{
+      font-weight: normal;
+    }
+    .wetChatPay{
+      position: fixed;
+      top:0;
+      bottom: 0;
+      background: rgba(0,0,0,.7);
+      color: #fff;
+      width: 100%;
+      .pay-block{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 60%;
+        text-align: center;
+        transform: translate(-50%, -50%);
+        .qrcode{
+          margin: 0 auto 20px;
+          background-color: #fff;
+          padding: 10px;
+          width: 132px;
+        }
+      }
     }
   }
   .mg-20t{

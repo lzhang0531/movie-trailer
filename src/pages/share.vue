@@ -38,7 +38,7 @@ export default {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 50%;
+            width: 60%;
             text-align: center;
             transform: translate(-50%, -50%);
             .invitation{

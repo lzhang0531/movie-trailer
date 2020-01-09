@@ -3,6 +3,7 @@ let isiOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
 
 // 这是必须要写的，用来创建一些设置
 function setupWebViewJavascriptBridge (callback) {
+  console.log('setupWebViewJavascriptBridge')
   // Android使用
   if (isAndroid) {
     if (window.WebViewJavascriptBridge) {
@@ -16,8 +17,6 @@ function setupWebViewJavascriptBridge (callback) {
         false
       )
     }
-    console.log('tag', '安卓')
-    sessionStorage.phoneType = 'android'
   }
 
   // iOS使用
@@ -36,13 +35,12 @@ function setupWebViewJavascriptBridge (callback) {
     setTimeout(function () {
       document.documentElement.removeChild(WVJBIframe)
     }, 0)
-    console.log('tag', 'ios')
-    sessionStorage.phoneType = 'ios'
   }
 }
 // 注册回调函数，第一次连接时调用 初始化函数(android需要初始化,ios不用)
 setupWebViewJavascriptBridge(function (bridge) {
   if (isAndroid) {
+    console.log('init')
     // 初始化
     bridge.init(function (message, responseCallback) {
       var data = {

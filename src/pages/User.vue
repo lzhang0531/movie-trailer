@@ -69,9 +69,7 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next((vm) => {
-      if (from.name === 'buyMember') {
-        vm.getUserInfo(vm.appUser.deviceId)
-      }
+      vm.getUserInfo(vm.appUser.deviceId)
     })
   },
   methods: {

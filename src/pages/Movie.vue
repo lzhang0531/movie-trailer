@@ -111,7 +111,11 @@ export default {
           pic: baseUrl + '/file/' + this.movie.thumbnailPath
         }
       })
-      if (!this.canplayFlag) {
+      this.player.play()
+      this.player.on('fullscreen', (a) => {
+        console.log('fullscreen')
+      })
+      if (!this.canplayFlag && this.movie.payFlag) {
         this.player.on('timeupdate', (a) => {
           if (this.player.video.currentTime > playTime && !this.canplayFlag) {
             this.player.pause()
